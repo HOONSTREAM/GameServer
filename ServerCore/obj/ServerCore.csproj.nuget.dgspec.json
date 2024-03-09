@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\ServerCore.csproj": {}
+    "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\ServerCore.csproj": {
+    "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\ServerCore.csproj",
+        "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj",
         "projectName": "ServerCore",
-        "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\ServerCore.csproj",
+        "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj",
         "packagesPath": "C:\\Users\\sora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\obj\\",
+        "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

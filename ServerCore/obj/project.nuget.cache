@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+i0ywSXzdUVseh78GeYXYCsg3EfWPM4onpgoca/wzVERp8TR8GhCTAfbAeYKUnYmeDdaS3JErXaPbxWnZQY9Gg==",
+  "dgSpecHash": "xEYKfsqFGh1zL0wo6mCqk5sOvRwH4Aou3GgdgfOLdTMNP8XPZ965eXfUu0FlgoVZuhgYb31tlJfKIT9ng+TAHw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\ServerCore\\ServerCore.csproj",
+  "projectFilePath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

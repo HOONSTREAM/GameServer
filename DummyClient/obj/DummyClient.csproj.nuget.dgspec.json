@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\DummyClient.csproj": {}
+    "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\DummyClient.csproj": {
+    "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\DummyClient.csproj",
+        "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj",
         "projectName": "DummyClient",
-        "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\DummyClient.csproj",
+        "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj",
         "packagesPath": "C:\\Users\\sora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\obj\\",
+        "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

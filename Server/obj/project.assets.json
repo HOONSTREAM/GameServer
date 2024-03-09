@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\Server\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\sora\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\Server\\obj\\",
+      "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,6 +1,6 @@
 ﻿namespace ServerCore
 {
-
+    // 24.03.09 spinlock 구현
     class SpinLock
     {
         volatile int _locked = 0; // volatile 가시성보장

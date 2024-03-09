@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CSD33jpkYnRXfeJrcETRIRdpoYT50ivLkV0V0bTFIMmoCQ4/rtA8Ccz+bnUC6YXqKtXvbBLNM7vZTZMIfR4/Mg==",
+  "dgSpecHash": "PEGV3AzIt/J7NqOSo3/34cnBwA6Ll4fVukkhoWFoPwkFvW3pDMFmU0Yzao/9T/1UTtFCevaM3i+vErQ2PAt3SQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sora\\OneDrive\\Desktop\\Server\\DummyClient\\DummyClient.csproj",
+  "projectFilePath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
