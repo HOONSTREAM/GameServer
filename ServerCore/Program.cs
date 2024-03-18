@@ -19,11 +19,18 @@
                 //     break; 
                 // }
                 //CAS = Compare and Swap
-                int original = Interlocked.CompareExchange(ref _locked, desired, expected); //_locked 와 expect를 비교해서 일치하면 desired로 updated함 
+                int original = Interlocked.CompareExchange(ref _locked, desired, expected); //_locked 와 expect(공간이 빔)를 비교해서 일치하면 desired(공간차지)로 updated하고 반복문탈출 
                 if(original == expected)
                 {
                     break;
                 }
+
+                // 만약 break가 안되면 쉬다오는 것이 context switching 
+                Thread.Sleep(1); // 무조건 휴식 1ms 
+                Thread.Sleep(0); // 조건부 양보 -> 나보다 우선순위가 낮은 애들한테는 양보불가 -> 우선순위가 나보다 같거나 높은쓰레드가 없으면 다시 본인에게 순서가 옴
+                Thread.Yield(); // 관대한 양보 -> 관대하게 양보할테니, 지금 실행가능한 Thread가 있으면 실행하세요 -> 실행가능한 애가없으면 남은시간을 본인에게 소진함.
+
+
 
             }
 
