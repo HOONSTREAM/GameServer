@@ -1,0 +1,15 @@
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.exe
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.deps.json
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.runtimeconfig.json
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.dll
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.pdb
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.AssemblyReference.cache
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.AssemblyInfoInputs.cache
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.AssemblyInfo.cs
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.CoreCompileInputs.cache
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.dll
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\refint\DummyClient.dll
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.pdb
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.genruntimeconfig.cache
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\ref\DummyClient.dll
