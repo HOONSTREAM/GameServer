@@ -13,3 +13,17 @@ C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\refint\Du
 C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.pdb
 C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.genruntimeconfig.cache
 C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\ref\DummyClient.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.exe
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.deps.json
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.runtimeconfig.json
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\DummyClient.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.GeneratedMSBuildEditorConfig.editorconfig
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.AssemblyInfoInputs.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.AssemblyInfo.cs
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.CoreCompileInputs.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\refint\DummyClient.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.genruntimeconfig.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\ref\DummyClient.dll

@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    internal class Listener //논블록킹방식으로 만듬.
+    {
+        Socket _listenSocket;
+        Action<Socket> _onAcceptHandler;
+
+        public void Init(IPEndPoint endPoint, Action<Socket> onAcceptHandler)
+        {
+            _listenSocket =  new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _onAcceptHandler += onAcceptHandler;
+
+            //문지기교육
+            _listenSocket.Bind(endPoint);
+
+            //영업시작
+            //backlog : 최대 대기수
+            _listenSocket.Listen(10);
+
+
+            /*SocketAsyncEventArgs 클래스는 .NET 프레임워크에서 네트워크 소켓 통신을 위해 
+             * 비동기 작업을 수행할 때 사용되는 클래스입니다. 이 클래스는 효율적인 I/O 작업을 가능하게 해주며, 
+             * 특히 많은 양의 네트워크 연결을 관리해야 하는 서버 애플리케이션에서 유용합니다.*/
+
+            SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+            args.Completed += new EventHandler<SocketAsyncEventArgs>(OnAcceptCompleted);
+            RegisterAccept(args);
+        
+        }
+
+        void RegisterAccept(SocketAsyncEventArgs args)
+        {
+            args.AcceptSocket = null;
+
+           bool pending = _listenSocket.AcceptAsync(args); // 바로 처리될수도 있고, 안될수도 있고...
+
+            if(pending == false) 
+            {
+                OnAcceptCompleted(null, args);
+            }
+        }
+        void OnAcceptCompleted(object sender , SocketAsyncEventArgs args)
+        {
+            if(args.SocketError == SocketError.Success)
+            {
+                //실제로 유저가 왔으면 ?
+                _onAcceptHandler.Invoke(args.AcceptSocket);
+            }
+
+            else
+            {
+                Console.WriteLine(args.SocketError.ToString());
+            }
+              
+
+            RegisterAccept(args);
+
+        }
+
+    }
+}
