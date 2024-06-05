@@ -16,22 +16,23 @@ namespace ServerCore
         Socket _socket;
         private int _disconnected = 0;
         object _lock = new object();    
-        Queue<byte[]> _send_queue = new Queue<byte[]>();
-        bool _pending = false;
-        SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs(); // _sendarg 재사용
+        Queue<byte[]> _send_queue = new Queue<byte[]>();      
 
+        List<ArraySegment<byte>> _pendinglist = new List<ArraySegment<byte>>(); //이전버전에서 큐 대신 사용되는 것이며, 대기목록 리스트임
+        SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs(); // _sendarg 재사용
+        SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
 
         public void Start(Socket socket)
         {
             _socket = socket;
 
-            SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
-            recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
+
+            _recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
 
             //recvArgs.UserToken = this; //이 세션으로 부터 온거다 라는 정보(this)
-            
-            recvArgs.SetBuffer(new byte[1024], 0, 1024);
-            RegisterRecv(recvArgs);
+
+            _recvArgs.SetBuffer(new byte[1024], 0, 1024);
+            RegisterRecv();
 
             _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
@@ -42,7 +43,8 @@ namespace ServerCore
             lock (_lock)
             {
                 _send_queue.Enqueue(sendbuff);
-                if (_pending == false) // 실제로 연결된 유저가 없으면,
+
+                if (_pendinglist.Count == 0) // 실제로 연결된 유저가 없으면,
                 {
                     RegisterSend();
                 }
@@ -65,9 +67,12 @@ namespace ServerCore
         void RegisterSend()
         {
 
-            _pending = true;
-            byte[] buff = _send_queue.Dequeue();
-            _sendArgs.SetBuffer(buff,0, buff.Length);
+            while (_send_queue.Count > 0)
+            {
+                byte[] buff = _send_queue.Dequeue();
+                _pendinglist.Add(new ArraySegment<byte>(buff,0,buff.Length));   // 어떤 배열의 일부를 나타내는 구조체(스택) , 패킷 모아보내기
+            }
+            _sendArgs.BufferList = _pendinglist;
 
             bool pending = _socket.SendAsync(_sendArgs);
             if (pending == false)
@@ -86,19 +91,17 @@ namespace ServerCore
 
                     try
                     {
-                        if(_send_queue.Count > 0) // 멀티스레드 환경으로, 내가 예약하는동안 누군가 예약을 했을때의 처리
+                        _sendArgs.BufferList = null;
+                        _pendinglist.Clear();
+
+                        Console.WriteLine($"Transferred bytes : {_sendArgs.BytesTransferred}");
+
+                        if (_send_queue.Count > 0) // 멀티스레드 환경으로, 내가 예약하는동안 누군가 예약을 했을때의 처리
                         {
                             RegisterSend();
                         }
 
-                        else
-                        {
-                            _pending = false;
-                        }
-                        
-
-
-
+                      
                     }
 
                     catch (Exception e)
@@ -114,12 +117,12 @@ namespace ServerCore
             }
         
         }
-        void RegisterRecv(SocketAsyncEventArgs args)
+        void RegisterRecv()
         {
-            bool pending = _socket.ReceiveAsync(args);
+            bool pending = _socket.ReceiveAsync(_recvArgs);
             if(pending == false)
             {
-                OnRecvCompleted(null, args);
+                OnRecvCompleted(null, _recvArgs);
             }
 
         }
@@ -135,7 +138,7 @@ namespace ServerCore
                     Console.WriteLine($"[From Client] : {recvData}");
 
 
-                    RegisterRecv(args);
+                    RegisterRecv();
 
                 }
 
