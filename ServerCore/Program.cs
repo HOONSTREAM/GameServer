@@ -6,36 +6,36 @@ using System.Text;
 
 namespace ServerCore
 {
+    class GameSession : Session
+    {
+        public override void OnConnected(EndPoint endpoint)
+        {
+            byte[] sendbuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server ! ");
+            Send(sendbuff);
+            Thread.Sleep(1000);
+            Disconnect();
+        }
+        public override void OnDisconnected(EndPoint endpoint)
+        {
+            Console.WriteLine($"OnDisconnected : {endpoint}");
+        }
+        public override void OnRecv(ArraySegment<byte> buffer)
+        {
+           string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+           Console.WriteLine($"[From Client] : {recvData}");
+        }
+        public override void OnSend(int numOfBytes)
+        {
+            Console.WriteLine($"Transferred bytes : {numOfBytes}");
+        }
+    }
 
     class Program
     {
 
         static Listener _listener = new Listener();
 
-        static void OnAcceptHandler(Socket clientSocket)
-        {
-            try
-            {
-
-                 Session session = new Session();
-                session.Start(clientSocket);
-
-
-                //보낸다.
-                byte[] sendbuff = Encoding.UTF8.GetBytes("Welcome To MMORPG Server ! ");
-                session.Send(sendbuff);
-
-                Thread.Sleep(1000);
-                session.Disconnect();
-
-
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            
-        }
+     
         static void Main(string[] args)
         {
             //DNS(Domain Name System) 사용
@@ -45,7 +45,7 @@ namespace ServerCore
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
            
-            _listener.Init(endPoint,OnAcceptHandler);
+            _listener.Init(endPoint,() => { return new GameSession(); }); // 무엇을만들어줄지만 지정
 
             while (true)
             {

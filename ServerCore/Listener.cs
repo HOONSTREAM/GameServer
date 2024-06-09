@@ -11,12 +11,12 @@ namespace ServerCore
     internal class Listener //논블록킹방식으로 만듬.
     {
         Socket _listenSocket;
-        Action<Socket> _onAcceptHandler;
+        Func<Session> _sessionFactory; // 세션을 어떤방식으로 누구를 만들어줄지 결정
 
-        public void Init(IPEndPoint endPoint, Action<Socket> onAcceptHandler)
+        public void Init(IPEndPoint endPoint, Func<Session> sessionFactory)
         {
             _listenSocket =  new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            _onAcceptHandler += onAcceptHandler;
+            _sessionFactory += sessionFactory;
 
             //문지기교육
             _listenSocket.Bind(endPoint);
@@ -52,7 +52,10 @@ namespace ServerCore
             if(args.SocketError == SocketError.Success)
             {
                 //실제로 유저가 왔으면 ?
-                _onAcceptHandler.Invoke(args.AcceptSocket);
+                Session session = _sessionFactory.Invoke();
+                session.Start(args.AcceptSocket);
+                session.OnConnected(args.AcceptSocket.RemoteEndPoint);
+                
             }
 
             else

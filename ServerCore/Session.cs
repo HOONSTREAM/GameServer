@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,10 @@ namespace ServerCore
     /// <summary>
     /// 세션 : 클라이언트와 서버 간의 대화나 상호작용이 지속되는 기간
     /// </summary>
-    internal class Session
+    abstract class Session
     {
 
-        Socket _socket;
+        Socket _socket; 
         private int _disconnected = 0;
         object _lock = new object();    
         Queue<byte[]> _send_queue = new Queue<byte[]>();      
@@ -21,6 +22,11 @@ namespace ServerCore
         List<ArraySegment<byte>> _pendinglist = new List<ArraySegment<byte>>(); //이전버전에서 큐 대신 사용되는 것이며, 대기목록 리스트임
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs(); // _sendarg 재사용
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
+
+        public abstract void OnConnected(EndPoint endpoint);
+        public abstract void OnRecv(ArraySegment<byte> buffer);
+        public abstract void OnSend(int numOfBytes);
+        public abstract void OnDisconnected(EndPoint endpoint);
 
         public void Start(Socket socket)
         {
@@ -58,6 +64,7 @@ namespace ServerCore
             if (Interlocked.Exchange(ref _disconnected, 1) == 1)
                 return;
 
+            OnDisconnected(_socket.RemoteEndPoint);
             _socket.Shutdown(SocketShutdown.Both);
             _socket.Close();
         }
@@ -94,7 +101,8 @@ namespace ServerCore
                         _sendArgs.BufferList = null;
                         _pendinglist.Clear();
 
-                        Console.WriteLine($"Transferred bytes : {_sendArgs.BytesTransferred}");
+                        OnSend(_sendArgs.BytesTransferred);
+                       
 
                         if (_send_queue.Count > 0) // 멀티스레드 환경으로, 내가 예약하는동안 누군가 예약을 했을때의 처리
                         {
@@ -131,13 +139,10 @@ namespace ServerCore
         {
             if(args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
-                //TODO
+                
                 try
                 {
-                    string recvData = Encoding.UTF8.GetString(args.Buffer, args.Offset, args.BytesTransferred);
-                    Console.WriteLine($"[From Client] : {recvData}");
-
-
+                    OnRecv(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
                     RegisterRecv();
 
                 }
