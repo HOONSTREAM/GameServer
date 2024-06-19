@@ -28,9 +28,7 @@ C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\refint\Ser
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.pdb
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll
-D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.exe
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.deps.json
-D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.runtimeconfig.json
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.dll
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.pdb
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
@@ -40,5 +38,4 @@ D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.dll
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\refint\ServerCore.dll
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.pdb
-D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll

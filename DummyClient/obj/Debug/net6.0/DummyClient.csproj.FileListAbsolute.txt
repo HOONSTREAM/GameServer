@@ -27,3 +27,7 @@ D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.pdb
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.genruntimeconfig.cache
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\ref\DummyClient.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\ServerCore.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\ServerCore.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.AssemblyReference.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.CopyComplete

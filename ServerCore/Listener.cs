@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    internal class Listener //논블록킹방식으로 만듬.
+    public class Listener //논블록킹방식으로 만듬.
     {
         Socket _listenSocket;
         Func<Session> _sessionFactory; // 세션을 어떤방식으로 누구를 만들어줄지 결정

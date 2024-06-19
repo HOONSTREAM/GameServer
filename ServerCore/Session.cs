@@ -11,7 +11,7 @@ namespace ServerCore
     /// <summary>
     /// 세션 : 클라이언트와 서버 간의 대화나 상호작용이 지속되는 기간
     /// </summary>
-    abstract class Session
+    public abstract class Session
     {
 
         Socket _socket; 

@@ -1,5 +1,18 @@
-C:\Users\sora\OneDrive\Desktop\GameServer\Server\obj\Debug\net6.0\Server.csproj.AssemblyReference.cache
-C:\Users\sora\OneDrive\Desktop\GameServer\Server\obj\Debug\net6.0\Server.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\sora\OneDrive\Desktop\GameServer\Server\obj\Debug\net6.0\Server.AssemblyInfoInputs.cache
-C:\Users\sora\OneDrive\Desktop\GameServer\Server\obj\Debug\net6.0\Server.AssemblyInfo.cs
-C:\Users\sora\OneDrive\Desktop\GameServer\Server\obj\Debug\net6.0\Server.csproj.CoreCompileInputs.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\Server.exe
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\Server.deps.json
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\Server.runtimeconfig.json
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\Server.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\Server.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\ServerCore.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\bin\Debug\net6.0\ServerCore.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.csproj.AssemblyReference.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.AssemblyInfoInputs.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.AssemblyInfo.cs
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.csproj.CoreCompileInputs.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.csproj.CopyComplete
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\refint\Server.dll
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.pdb
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\Server.genruntimeconfig.cache
+D:\SourceCode(23.10.08) _ original_Project_file\GameServer\Server\obj\Debug\net6.0\ref\Server.dll
