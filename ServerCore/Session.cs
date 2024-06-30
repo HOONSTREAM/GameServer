@@ -16,6 +16,9 @@ namespace ServerCore
 
         Socket _socket; 
         private int _disconnected = 0;
+
+        RecvBuffer _recvbuffer = new RecvBuffer(1024);
+
         object _lock = new object();    
         Queue<byte[]> _send_queue = new Queue<byte[]>();      
 
@@ -24,7 +27,7 @@ namespace ServerCore
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
 
         public abstract void OnConnected(EndPoint endpoint);
-        public abstract void OnRecv(ArraySegment<byte> buffer);
+        public abstract int OnRecv(ArraySegment<byte> buffer);
         public abstract void OnSend(int numOfBytes);
         public abstract void OnDisconnected(EndPoint endpoint);
 
@@ -34,14 +37,10 @@ namespace ServerCore
 
 
             _recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
-
             //recvArgs.UserToken = this; //이 세션으로 부터 온거다 라는 정보(this)
-
-            _recvArgs.SetBuffer(new byte[1024], 0, 1024);
-            RegisterRecv();
-
             _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
+            RegisterRecv();
         }
 
         public void Send(byte[] sendbuff)
@@ -127,7 +126,13 @@ namespace ServerCore
         }
         void RegisterRecv()
         {
+            _recvbuffer.Clean(); 
+
+            ArraySegment<byte> segment = _recvbuffer.RecvSegment;
+            _recvArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
+
             bool pending = _socket.ReceiveAsync(_recvArgs);
+
             if(pending == false)
             {
                 OnRecvCompleted(null, _recvArgs);
@@ -139,10 +144,30 @@ namespace ServerCore
         {
             if(args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
-                
+
                 try
                 {
-                    OnRecv(new ArraySegment<byte>(args.Buffer, args.Offset, args.BytesTransferred));
+                    if (_recvbuffer.OnWrite(args.BytesTransferred) == false)
+                    {
+                        Disconnect();
+                        return;
+                    }
+
+                    // 컨텐츠 쪽으로 데이터를 넘겨주고 얼마나 처리했는지 받는다.
+
+                    int process_length = OnRecv(_recvbuffer.DataSegment);
+                    if (process_length < 0 || _recvbuffer.DataSize < process_length)
+                    {
+                        Disconnect();
+                        return;
+                    }
+                    //Read 커서 이동
+                    if(_recvbuffer.OnRead(process_length) == false)
+                    {
+                        Disconnect();
+                        return;
+                    }
+
                     RegisterRecv();
 
                 }
