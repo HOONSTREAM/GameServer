@@ -17,10 +17,10 @@ namespace ServerCore
         Socket _socket; 
         private int _disconnected = 0;
 
-        RecvBuffer _recvbuffer = new RecvBuffer(1024);
+        RecvBuffer _recvbuffer = new RecvBuffer(1024); //유저가 각기 보내는 데이터가 다를것이기 때문에 내부에 복사하여 들고 있는것이 맞음.
 
         object _lock = new object();    
-        Queue<byte[]> _send_queue = new Queue<byte[]>();      
+        Queue<ArraySegment<byte>> _send_queue = new Queue<ArraySegment<byte>>();      
 
         List<ArraySegment<byte>> _pendinglist = new List<ArraySegment<byte>>(); //이전버전에서 큐 대신 사용되는 것이며, 대기목록 리스트임
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs(); // _sendarg 재사용
@@ -43,7 +43,7 @@ namespace ServerCore
             RegisterRecv();
         }
 
-        public void Send(byte[] sendbuff)
+        public void Send(ArraySegment<byte> sendbuff)
         {
             lock (_lock)
             {
@@ -75,8 +75,8 @@ namespace ServerCore
 
             while (_send_queue.Count > 0)
             {
-                byte[] buff = _send_queue.Dequeue();
-                _pendinglist.Add(new ArraySegment<byte>(buff,0,buff.Length));   // 어떤 배열의 일부를 나타내는 구조체(스택) , 패킷 모아보내기
+                ArraySegment<byte> buff = _send_queue.Dequeue();
+                _pendinglist.Add(buff);   // 어떤 배열의 일부를 나타내는 구조체(스택) , 패킷 모아보내기
             }
             _sendArgs.BufferList = _pendinglist;
 
