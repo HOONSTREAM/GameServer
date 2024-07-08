@@ -31,3 +31,6 @@ D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\bin\Debug\net6.0\ServerCore.pdb
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.AssemblyReference.cache
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.CopyComplete
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\ServerCore.dll
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\bin\Debug\net6.0\ServerCore.pdb
+C:\Users\sora\OneDrive\Desktop\GameServer\DummyClient\obj\Debug\net6.0\DummyClient.csproj.CopyComplete

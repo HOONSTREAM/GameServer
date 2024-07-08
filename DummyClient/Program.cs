@@ -5,15 +5,34 @@ using System.Text;
 
 namespace DummyClient
 {
+
+
+    public class Packet
+    {
+        public ushort size;
+        public ushort packetid;
+    }
+
     class GameSession : Session
     {
         public override void OnConnected(EndPoint endpoint)
         {
             Console.WriteLine($"On Connected : {endpoint}");
 
+            Packet packet = new Packet() { size = 4, packetid = 7 };
+
             for (int i = 0; i < 5; i++)
             {
-                byte[] sendbuff = Encoding.UTF8.GetBytes($"Hello World{i}");
+
+                ArraySegment<byte> opensegment = SendBufferHelper.Open(4096);
+                byte[] buffer = BitConverter.GetBytes(packet.size);
+                byte[] buffer2 = BitConverter.GetBytes(packet.packetid);
+                Array.Copy(buffer, 0, opensegment.Array, opensegment.Offset, buffer.Length);
+                Array.Copy(buffer2, 0, opensegment.Array, opensegment.Offset + buffer.Length, buffer2.Length);
+
+                ArraySegment<byte> sendbuff = SendBufferHelper.Close(packet.size);
+
+
                 Send(sendbuff);
             }
         }

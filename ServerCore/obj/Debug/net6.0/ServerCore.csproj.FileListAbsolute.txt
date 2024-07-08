@@ -13,9 +13,7 @@ C:\Users\sora\OneDrive\Desktop\Server\ServerCore\obj\Debug\net6.0\refint\ServerC
 C:\Users\sora\OneDrive\Desktop\Server\ServerCore\obj\Debug\net6.0\ServerCore.pdb
 C:\Users\sora\OneDrive\Desktop\Server\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
 C:\Users\sora\OneDrive\Desktop\Server\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll
-C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.exe
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.deps.json
-C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.runtimeconfig.json
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.dll
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.pdb
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.csproj.AssemblyReference.cache
@@ -26,7 +24,6 @@ C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.dll
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\refint\ServerCore.dll
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.pdb
-C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
 C:\Users\sora\OneDrive\Desktop\GameServer\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.deps.json
 D:\SourceCode(23.10.08) _ original_Project_file\GameServer\ServerCore\bin\Debug\net6.0\ServerCore.dll

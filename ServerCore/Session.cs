@@ -8,6 +8,44 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
+
+    public abstract class PacketSession : Session
+    {
+        public static readonly short HeaderSize = 2;
+       
+        public sealed override int OnRecv(ArraySegment<byte> buffer) /// 다른클래스가 PacketSession 클래스를 상속받아도, OnRecv를 오버라이딩 할 수 없다. (Sealed 키워드)
+        {
+            int processLen = 0;
+
+            while (true)
+            {
+                // 최소한 헤더는 파싱할 수 있는지 확인한다.
+
+                if(buffer.Count < HeaderSize)
+                {
+                    break;
+                }
+
+                //패킷이 완전히 도착했는지 확인한다.
+               ushort dataSize =  BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+
+                if(buffer.Count < dataSize)
+                {
+                    break;
+                }
+
+                //여기까지 왔으면 패킷 조립 가능
+                OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
+                processLen += dataSize;
+
+                buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
+            }
+
+            return processLen;
+        }
+
+        public abstract void OnRecvPacket(ArraySegment<byte> buffer);
+    }
     /// <summary>
     /// 세션 : 클라이언트와 서버 간의 대화나 상호작용이 지속되는 기간
     /// </summary>

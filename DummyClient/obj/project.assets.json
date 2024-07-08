@@ -27,23 +27,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Users\\sora\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\SourceCode(23.10.08) _ original_Project_file\\GameServer\\DummyClient\\DummyClient.csproj",
+      "projectUniqueName": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj",
       "projectName": "DummyClient",
-      "projectPath": "D:\\SourceCode(23.10.08) _ original_Project_file\\GameServer\\DummyClient\\DummyClient.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\SourceCode(23.10.08) _ original_Project_file\\GameServer\\DummyClient\\obj\\",
+      "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\DummyClient.csproj",
+      "packagesPath": "C:\\Users\\sora\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\DummyClient\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sora\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -52,15 +52,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\SourceCode(23.10.08) _ original_Project_file\\GameServer\\ServerCore\\ServerCore.csproj": {
-              "projectPath": "D:\\SourceCode(23.10.08) _ original_Project_file\\GameServer\\ServerCore\\ServerCore.csproj"
+            "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj": {
+              "projectPath": "C:\\Users\\sora\\OneDrive\\Desktop\\GameServer\\ServerCore\\ServerCore.csproj"
             }
           }
         }
@@ -90,7 +89,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

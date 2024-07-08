@@ -8,42 +8,47 @@ using System.Text;
 using ServerCore;
 
 
-public class Knight
+public class Packet
 {
-    public int hp;
-    public int attack;
-
+    public ushort size;
+    public ushort packetid;
 }
-class GameSession : Session
+
+class GameSession : PacketSession
 {
     public override void OnConnected(EndPoint endpoint)
     {
         Console.WriteLine($"OnConnected : {endpoint}");
-        Knight knight = new Knight() { hp = 100, attack = 10 };
+        //Packet packet = new Packet() { size = 100, packetid = 10 };
 
-        ArraySegment<byte> opensegment = SendBufferHelper.Open(4096);
-        byte[] buffer = BitConverter.GetBytes(knight.hp);
-        byte[] buffer2 = BitConverter.GetBytes(knight.attack);
-        Array.Copy(buffer, 0, opensegment.Array, opensegment.Offset, buffer.Length);
-        Array.Copy(buffer2, 0, opensegment.Array, opensegment.Offset + buffer.Length, buffer2.Length);
+        //ArraySegment<byte> opensegment = SendBufferHelper.Open(4096);
+        //byte[] buffer = BitConverter.GetBytes(packet.size);
+        //byte[] buffer2 = BitConverter.GetBytes(packet.packetid);
+        //Array.Copy(buffer, 0, opensegment.Array, opensegment.Offset, buffer.Length);
+        //Array.Copy(buffer2, 0, opensegment.Array, opensegment.Offset + buffer.Length, buffer2.Length);
 
-        ArraySegment<byte> sendbuff = SendBufferHelper.Close(buffer.Length + buffer2.Length);
+        //ArraySegment<byte> sendbuff = SendBufferHelper.Close(buffer.Length + buffer2.Length);
 
-        Send(sendbuff);
-        Thread.Sleep(1000);
+        //Send(sendbuff);
+        Thread.Sleep(5000);
         Disconnect();
     }
+
+    public override void OnRecvPacket(ArraySegment<byte> buffer)
+    {
+        ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+        ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + 2);
+        Console.WriteLine($"RecvPacketId : {id}, RecvSize : {size}");
+        
+    }
+
+
     public override void OnDisconnected(EndPoint endpoint)
     {
         Console.WriteLine($"OnDisconnected : {endpoint}");
     }
-    public override int OnRecv(ArraySegment<byte> buffer)
-    {
-        string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
-        Console.WriteLine($"[From Client] : {recvData}");
 
-        return buffer.Count;
-    }
+    
     public override void OnSend(int numOfBytes)
     {
         Console.WriteLine($"Transferred bytes : {numOfBytes}");
