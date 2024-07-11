@@ -10,22 +10,61 @@ using System.Collections.Specialized;
 
 namespace DummyClient
 {
-    public class Packet // 패킷 헤더
+    public abstract class Packet // 패킷 헤더
     {
         public ushort size;
         public ushort packetid;
+
+        public abstract ArraySegment<byte> Write();
+        public abstract void Read(ArraySegment<byte> s);
     }
 
     class PlayerInfoReq : Packet
     {
         public long PlayerId;
-    }
 
-    class PlayerInfoOk : Packet
-    {
-        public int hp;
-        public int attack;
+        public PlayerInfoReq()
+        {
+            this.packetid = (ushort)PacketID.PlayrInfoReq;
+        }
 
+        public override void Read(ArraySegment<byte> s)
+        {
+            ushort count = 0;
+
+           // ushort size = BitConverter.ToUInt16(s.Array, s.Offset);
+            count += 2;
+           // ushort id = BitConverter.ToUInt16(s.Array, s.Offset + count);
+            count += 2;
+
+            this.PlayerId = BitConverter.ToInt64(new ReadOnlySpan<byte>(s.Array, s.Offset+count, s.Count-count));
+
+            count += 8;
+
+        }
+
+        public override ArraySegment<byte> Write()
+        {
+            ArraySegment<byte> opensegment = SendBufferHelper.Open(4096);
+
+            bool success = true;
+            ushort count = 0;
+
+            count += 2;
+            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset + count, opensegment.Count - count), this.packetid);
+            count += 2;
+            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset + count, opensegment.Count - count), this.PlayerId);
+            count += 8;
+            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset, opensegment.Count), count);
+
+            if(success == false)
+            {
+                return null;
+            }
+
+            return SendBufferHelper.Close(count);
+
+        }
     }
 
     public enum PacketID
@@ -40,33 +79,19 @@ namespace DummyClient
         {
             Console.WriteLine($"On Connected : {endpoint}");
 
-            PlayerInfoReq packet = new PlayerInfoReq() { packetid = (ushort)PacketID.PlayrInfoReq, PlayerId = 1001 };
+            PlayerInfoReq packet = new PlayerInfoReq() { PlayerId = 1001 };
 
-           // for (int i = 0; i < 5; i++)
+            // for (int i = 0; i < 5; i++)
             {
+                ArraySegment<byte> s = packet.Write();
 
-                ArraySegment<byte> opensegment = SendBufferHelper.Open(4096);
-
-                bool success = true;
-                ushort count = 0;
-
-                count += 2;
-                success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset + count, opensegment.Count- count), packet.packetid);
-                count += 2;
-                success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset+ count, opensegment.Count- count), packet.PlayerId);
-                count += 8;
-                success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset, opensegment.Count), count);
-                
-
-
-                ArraySegment<byte> sendbuff = SendBufferHelper.Close(count);
-
-                if (success)
+                if(s != null)
                 {
-                    Send(sendbuff);
+                    Send(s);
                 }
-               
+
             }
+
         }
         public override void OnDisconnected(EndPoint endpoint)
         {
