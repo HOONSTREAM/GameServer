@@ -21,24 +21,32 @@ namespace Server
     class PlayerInfoReq : Packet
     {
         public long PlayerId;
+        public string name;
+
 
         public PlayerInfoReq()
         {
             this.packetid = (ushort)PacketID.PlayrInfoReq;
         }
 
-        public override void Read(ArraySegment<byte> s)
+        public override void Read(ArraySegment<byte> segment)
         {
             ushort count = 0;
 
-            // ushort size = BitConverter.ToUInt16(s.Array, s.Offset);
-            count += 2;
-            // ushort id = BitConverter.ToUInt16(s.Array, s.Offset + count);
-            count += 2;
+            ReadOnlySpan<byte> s = new ReadOnlySpan<byte>(segment.Array, segment.Offset, segment.Count);
 
-            this.PlayerId = BitConverter.ToInt64(new ReadOnlySpan<byte>(s.Array, s.Offset + count, s.Count - count)); // 패킷조작 선별
 
-            count += 8;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.PlayerId = BitConverter.ToInt64(s.Slice(count, s.Length - count));
+
+            count += sizeof(long);
+
+            ushort nameLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
+            count += sizeof(ushort);
+
+            //바이트배열에서 스트링으로 역직렬화 해준다.
+            this.name = Encoding.Unicode.GetString(s.Slice(count, nameLen));
 
         }
 
@@ -49,12 +57,25 @@ namespace Server
             bool success = true;
             ushort count = 0;
 
-            count += 2;
-            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset + count, opensegment.Count - count), this.packetid);
-            count += 2;
-            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset + count, opensegment.Count - count), this.PlayerId);
-            count += 8;
-            success &= BitConverter.TryWriteBytes(new Span<byte>(opensegment.Array, opensegment.Offset, opensegment.Count), count);
+            Span<byte> s = new Span<byte>(opensegment.Array, opensegment.Offset, opensegment.Count);
+
+            count += sizeof(ushort);
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.packetid);
+            count += sizeof(ushort);
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.PlayerId);
+            count += sizeof(long);
+
+            ushort nameLen = (ushort)Encoding.Unicode.GetByteCount(this.name); //바이트배열로 변환이 되었을 때의 길이
+
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), nameLen);
+
+            count += sizeof(ushort);
+
+            Encoding.Unicode.GetBytes(this.name);
+            Array.Copy(Encoding.Unicode.GetBytes(this.name), 0, opensegment.Array, count, nameLen);
+            count += nameLen;
+
+            success &= BitConverter.TryWriteBytes(s, count);
 
             if (success == false)
             {
@@ -65,7 +86,6 @@ namespace Server
 
         }
     }
-
     public enum PacketID
     {
         PlayrInfoReq = 1,
@@ -112,6 +132,8 @@ namespace Server
                         p.Read(buffer);
 
                         Console.WriteLine($"PlayerInfoReq : {p.PlayerId}");
+                        Console.WriteLine($"Playername : {p.name}");
+
                     }
                     break;
 
