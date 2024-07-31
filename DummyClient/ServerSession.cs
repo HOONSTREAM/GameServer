@@ -10,16 +10,18 @@ using System.Collections.Specialized;
 
 namespace DummyClient
 {
-    public abstract class Packet // 패킷 헤더
+
+    class PlayerInfoReq
     {
-        public ushort size;
-        public ushort packetid;
+        public long PlayerId;
+        public string name;
 
         public struct SkillInfo
         {
             public int id;
             public short level;
             public float duration;
+
 
             public bool Write(Span<byte> s, ref ushort count) //여기서 Span은 전체 바이트 배열임. 두번째 인자는 실시간으로 우리가 몇번째 카운트를 작업하고 있는지.
             {
@@ -45,25 +47,13 @@ namespace DummyClient
 
             }
         }
-            public List<SkillInfo> skills = new List<SkillInfo>();
-        
-
-        public abstract ArraySegment<byte> Write();
-        public abstract void Read(ArraySegment<byte> s);
-    }
-
-    class PlayerInfoReq : Packet
-    {
-        public long PlayerId;
-        public string name;
 
 
-        public PlayerInfoReq()
-        {
-            this.packetid = (ushort)PacketID.PlayrInfoReq;
-        }
+        public List<SkillInfo> skills = new List<SkillInfo>();
 
-        public override void Read(ArraySegment<byte> segment)
+
+
+        public void Read(ArraySegment<byte> segment)
         {
             ushort count = 0;
 
@@ -100,7 +90,7 @@ namespace DummyClient
 
         }
 
-        public override ArraySegment<byte> Write()
+        public ArraySegment<byte> Write()
         {
             
             ArraySegment<byte> opensegment = SendBufferHelper.Open(4096); // 4096 바이트 크기의 버퍼를 연다. 패킷 데이터를 저장하기 위해 사용된다.
@@ -116,7 +106,7 @@ namespace DummyClient
             count += sizeof(ushort); // 패킷 크기 필드를 건너뛰기 위해 count를 ushort만큼 증가시킨다.
 
 
-            success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), this.packetid); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
+            success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), (ushort)PacketID.PlayrInfoReq); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
             count += sizeof(ushort); // count를 packetid 필드 크기만큼 증가시킨다.
             success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.PlayerId);
             count += sizeof(long); // count를 Playerid 필드 크기만큼 증가시킨다.
