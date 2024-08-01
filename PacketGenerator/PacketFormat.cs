@@ -77,7 +77,45 @@ class {0}
         // {0} 변수 형식
         // {1} 변수 이름
         public static string memberFormat =
-@"public {0} {1}";
+@"public {0} {1};";
+
+        //{0} 리스트 이름 [대문자]
+        //{1} 리스트 이름 [소문자]
+        //{2} 멤버 변수들
+        //{3} 멤버 변수 Read
+        //{4} 멤버 변수 Write
+
+        public static string memberListFormat =
+@" public struct {0}
+{{
+
+    {2}
+
+
+
+    public void Read(ReadOnlySpan<byte> s, ref ushort count)
+
+    {{
+        {3}
+
+    }}
+
+    public bool Write(Span<byte> s, ref ushort count) //여기서 Span은 전체 바이트 배열임. 두번째 인자는 실시간으로 우리가 몇번째 카운트를 작업하고 있는지.
+   
+    {{
+        bool success = true;
+
+        {4}
+
+        return true;
+    }}
+
+   
+
+}}
+
+
+        public List<{0}> {1}s = new List<{0}>();";
 
 
         //{0} 변수 이름
@@ -97,6 +135,24 @@ class {0}
    count += {0}Len;";
 
 
+        // {0} 리스트 이름 [대문자]
+        // {1} 리스트 이름 {소문자}
+        public static string readListFormat =
+
+@" {1}s.Clear();
+ushort {1}Len = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
+count += sizeof(ushort);
+
+for(int i = 0; i<{1}Len; i++)
+{{
+    {0} {1} = new {0}();
+    {1}.Read(s, ref count);
+
+    {1}s.Add({1});
+
+}}";
+
+
         //{0} 변수 이름
         //{1} 변수 형식
         public static string writeFormat =
@@ -110,5 +166,17 @@ class {0}
 
  count += sizeof(ushort); // count를 이름길이 필드 크기만큼 증가시킨다. (이름 길이를 저장하는 ushort 공간을 건너뛰기 위해)
  count += {0}Len; // count를 이름 데이터 크기만큼 증가시킨다. (실제 이름 데이터를 건너뛰기 위해)";
+
+        // {0} 리스트 이름 [대문자]
+        // {1} 리스트 이름 {소문자}
+        public static string writeListFormat =
+@"success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.{1}s.Count);
+count += sizeof(ushort);
+
+foreach({0} {1} in this.{1}s)
+{{
+    success &= {1}.Write(s, ref count);
+}}";
+
     }
 }

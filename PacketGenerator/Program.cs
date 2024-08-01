@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Security.Principal;
 using System.Xml;
 
 namespace PacketGenerator
 {
     class Program
     {
+        static string getPackets; // 실시간으로 만들어 지는 패킷스트링을 만들어서 관리 
         static void Main(string[] args)
         {
             XmlReaderSettings settings = new XmlReaderSettings()
@@ -27,6 +29,7 @@ namespace PacketGenerator
                     }
 
                     Console.WriteLine(r.Name + " " + r["name"]); // 타입 , 속성(어트리뷰트)
+                    File.WriteAllText("GenPackets.cs", getPackets);
                 }
             }
 
@@ -53,13 +56,22 @@ namespace PacketGenerator
                 return;
             }
 
-            ParseMembers(r);
+            Tuple<string, string, string>  t = ParseMembers(r);
+            getPackets += string.Format(PacketFormat.packetFormat, packetName, t.Item1 , t.Item2 , t.Item3);
 
         }
 
-        public static void ParseMembers(XmlReader r) // XML 정보를 하나씩 긁어주는 역할을 하게됨.
+        //{1} 멤버 변수
+        //{2} 멤버 변수 Read
+        //{3} 멤버 변수 Write
+
+        public static Tuple<string, string, string> ParseMembers(XmlReader r) // XML 정보를 하나씩 긁어주는 역할을 하게됨.
         {
             string packetName = r["name"];
+
+            string membercode = "";
+            string readcode = "";
+            string writecode = "";
 
             int depth = r.Depth + 1; 
             while (r.Read())
@@ -71,7 +83,23 @@ namespace PacketGenerator
                 if (string.IsNullOrEmpty(memberName))
                 {
                     Console.WriteLine("Member without name");
-                    return;
+                    return null;
+
+                }
+
+                if (string.IsNullOrEmpty(membercode) == false)
+                {
+                    membercode += Environment.NewLine; // 엔터를 치는 것과 동일
+                }
+
+                if (string.IsNullOrEmpty(readcode) == false)
+                {
+                    readcode += Environment.NewLine; // 엔터를 치는 것과 동일
+                }
+
+                if (string.IsNullOrEmpty(writecode) == false)
+                {
+                    writecode += Environment.NewLine; // 엔터를 치는 것과 동일
                 }
 
                 //r.Name은 어떤 타입인지 알수 있게 해준다.
@@ -86,13 +114,96 @@ namespace PacketGenerator
                     case "long":
                     case "float":
                     case "double":
+                        membercode += string.Format(PacketFormat.memberFormat, memberType, memberName);
+                        readcode += string.Format(PacketFormat.readFormat, memberName, ToMemberType(memberType), memberType);
+                        writecode += string.Format(PacketFormat.writeFormat, memberName, memberType);
+                        break;
                     case "string":
+                        membercode += string.Format(PacketFormat.memberFormat, memberType, memberName);
+                        readcode += string.Format(PacketFormat.readStringFormat, memberName);
+                        writecode += string.Format(PacketFormat.writeStringFormat, memberName);
+                        break;
                     case "list":
+                        Tuple<string, string, string> t = ParseList(r);
+                        membercode += t.Item1;
+                        readcode += t.Item2;
+                        writecode += t.Item3;
+
                         break;
                     default:
                         break;
                 }
             }
+
+            membercode = membercode.Replace("\n", "\n\t");
+            readcode = readcode.Replace("\n", "\n\t\t");
+            writecode = writecode.Replace("\n", "\n\t\t");
+            return new Tuple<string, string, string>(membercode, readcode, writecode);
+        }
+
+        public static Tuple<string, string, string> ParseList(XmlReader r)
+        {
+            string listname = r["name"];
+            if(string.IsNullOrEmpty(listname))
+            {
+                Console.WriteLine("List without name");
+                return null;
+            }
+
+            Tuple<string, string, string> t = ParseMembers(r);
+
+            string membercode = string.Format(PacketFormat.memberListFormat,
+                FirstCharToUpper(listname), FirstCharToLower(listname),
+                t.Item1,
+                t.Item2,
+                t.Item3);
+
+            string readcode = string.Format(PacketFormat.readListFormat,
+               FirstCharToUpper(listname), FirstCharToLower(listname));
+
+            string writecode = string.Format(PacketFormat.writeListFormat,
+              FirstCharToUpper(listname), FirstCharToLower(listname));
+
+
+
+            return new Tuple<string, string, string>(membercode, readcode, writecode);
+
+
+        }
+
+        public static string ToMemberType(string memberType)
+        {
+            switch(memberType)
+            {
+                case "bool":
+                    return "ToBoolean";             
+                case "short":
+                    return "ToInt16";
+                case "int":
+                    return "ToInt32";
+                case "long":
+                    return "ToUInt64";
+                case "float":
+                    return "ToSingle";
+                case "double":
+                    return "ToDouble";
+                default:
+                    return "";
+            }
+        }
+
+        public static string FirstCharToUpper(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return "";
+            return input[0].ToString().ToUpper() + input.Substring(1);
+        }
+
+        public static string FirstCharToLower(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return "";
+            return input[0].ToString().ToLower() + input.Substring(1);
         }
     }
 }
