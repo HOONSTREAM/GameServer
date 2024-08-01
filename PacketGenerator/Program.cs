@@ -6,6 +6,9 @@ namespace PacketGenerator
 {
     class Program
     {
+        /// <summary>
+        /// PDL.xml을 읽고, 패킷을 정의하는 클래스를 정의합니다.
+        /// </summary>
         static string getPackets; // 실시간으로 만들어 지는 패킷스트링을 만들어서 관리 
         static void Main(string[] args)
         {

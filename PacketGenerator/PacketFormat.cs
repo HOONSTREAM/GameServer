@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace PacketGenerator
 {
+    /// <summary>
+    /// 패킷 자동화를 위한 템플릿과 메서드를 제공합니다.
+    /// </summary>
     class PacketFormat
     {
         //{0} 패킷 이름
