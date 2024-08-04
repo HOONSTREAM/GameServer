@@ -8,16 +8,60 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+
+
+
+
+    public enum PacketID
+    {
+        PlayerInfoReq = 1,
+        Test = 2,
+        PlayrInfoReq = 3,
+    }
+
     class PlayerInfoReq
     {
+        public byte testbyte;
         public long PlayerId;
         public string name;
-        public struct Skill
+        public class Skill
         {
 
             public int id;
             public short level;
             public float duration;
+            public class Attribute
+            {
+
+                public int attri;
+
+
+
+                public void Read(ReadOnlySpan<byte> s, ref ushort count)
+
+                {
+                    this.attri = BitConverter.ToInt32(s.Slice(count, s.Length - count));
+                    count += sizeof(int);
+
+                }
+
+                public bool Write(Span<byte> s, ref ushort count) //여기서 Span은 전체 바이트 배열임. 두번째 인자는 실시간으로 우리가 몇번째 카운트를 작업하고 있는지.
+
+                {
+                    bool success = true;
+
+                    success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.attri);
+                    count += sizeof(int);
+
+                    return true;
+                }
+
+
+
+            }
+
+
+            public List<Attribute> attributes = new List<Attribute>();
 
 
 
@@ -30,6 +74,18 @@ namespace Server
                 count += sizeof(short);
                 this.duration = BitConverter.ToSingle(s.Slice(count, s.Length - count));
                 count += sizeof(float);
+                attributes.Clear();
+                ushort attributeLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
+                count += sizeof(ushort);
+
+                for (int i = 0; i < attributeLen; i++)
+                {
+                    Attribute attribute = new Attribute();
+                    attribute.Read(s, ref count);
+
+                    attributes.Add(attribute);
+
+                }
 
             }
 
@@ -44,6 +100,13 @@ namespace Server
                 count += sizeof(short);
                 success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.duration);
                 count += sizeof(float);
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.attributes.Count);
+                count += sizeof(ushort);
+
+                foreach (Attribute attribute in this.attributes)
+                {
+                    success &= attribute.Write(s, ref count);
+                }
 
                 return true;
             }
@@ -65,6 +128,8 @@ namespace Server
             count += sizeof(ushort);
             count += sizeof(ushort);
 
+            this.testbyte = (byte)segment.Array[segment.Offset + count];
+            count += sizeof(byte);
             this.PlayerId = BitConverter.ToInt64(s.Slice(count, s.Length - count));
             count += sizeof(long);
             ushort nameLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
@@ -103,10 +168,12 @@ namespace Server
             count += sizeof(ushort); // 패킷 크기 필드를 건너뛰기 위해 count를 ushort만큼 증가시킨다.
 
 
-            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.PlayrInfoReq); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)PacketID.PlayerInfoReq); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
             count += sizeof(ushort); // count를 packetid 필드 크기만큼 증가시킨다.
 
 
+            opensegment.Array[opensegment.Offset + count] = (byte)this.testbyte;
+            count += sizeof(byte);
             success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.PlayerId);
             count += sizeof(long);
             ushort nameLen = (ushort)Encoding.Unicode.GetBytes(this.name, 0, this.name.Length, opensegment.Array, opensegment.Offset + count + sizeof(ushort));
@@ -133,12 +200,6 @@ namespace Server
             return SendBufferHelper.Close(count); // 직렬화 작업이 성공하면 버퍼를 닫고 직렬화된 데이터를 포함하는 어레이 세그먼트를 반환한다.
 
         }
-    }
-
-    public enum PacketID
-    {
-        PlayrInfoReq = 1,
-        PlayrInfoOk = 2,
     }
 
 

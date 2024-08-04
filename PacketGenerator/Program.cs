@@ -9,7 +9,9 @@ namespace PacketGenerator
         /// <summary>
         /// PDL.xml을 읽고, 패킷을 정의하는 클래스를 정의합니다.
         /// </summary>
-        static string getPackets; // 실시간으로 만들어 지는 패킷스트링을 만들어서 관리 
+        static string genPackets; // 실시간으로 만들어 지는 패킷스트링을 만들어서 관리 
+        static ushort packetId;
+        static string packetEnums;
         static void Main(string[] args)
         {
             XmlReaderSettings settings = new XmlReaderSettings()
@@ -32,7 +34,8 @@ namespace PacketGenerator
                     }
 
                     Console.WriteLine(r.Name + " " + r["name"]); // 타입 , 속성(어트리뷰트)
-                    File.WriteAllText("GenPackets.cs", getPackets);
+                    string filetext = string.Format(PacketFormat.fileFormat, packetEnums, genPackets);
+                    File.WriteAllText("GenPackets.cs", filetext);
                 }
             }
 
@@ -60,8 +63,8 @@ namespace PacketGenerator
             }
 
             Tuple<string, string, string>  t = ParseMembers(r);
-            getPackets += string.Format(PacketFormat.packetFormat, packetName, t.Item1 , t.Item2 , t.Item3);
-
+            genPackets += string.Format(PacketFormat.packetFormat, packetName, t.Item1 , t.Item2 , t.Item3);
+            packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, ++packetId) + Environment.NewLine + "\t";
         }
 
         //{1} 멤버 변수
@@ -110,9 +113,15 @@ namespace PacketGenerator
 
                 switch (memberType)
                 {
-                    case "bool":
                     case "byte":
+                    case "sbyte":
+                        membercode += string.Format(PacketFormat.memberFormat, memberType, memberName);
+                        readcode += string.Format(PacketFormat.readByteFormat, memberName, memberType);
+                        writecode += string.Format(PacketFormat.writeByteFormat, memberName, memberType);
+                        break;
+                    case "bool":                  
                     case "short":
+                    case "ushort":
                     case "int":
                     case "long":
                     case "float":
@@ -182,10 +191,12 @@ namespace PacketGenerator
                     return "ToBoolean";             
                 case "short":
                     return "ToInt16";
+                case "ushort":
+                    return "ToUInt16";
                 case "int":
                     return "ToInt32";
                 case "long":
-                    return "ToUInt64";
+                    return "ToInt64";
                 case "float":
                     return "ToSingle";
                 case "double":
