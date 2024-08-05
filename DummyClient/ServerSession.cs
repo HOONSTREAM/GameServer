@@ -15,7 +15,6 @@ namespace DummyClient
     {
         PlayerInfoReq = 1,
         Test = 2,
-
     }
 
     class PlayerInfoReq
@@ -209,6 +208,7 @@ namespace DummyClient
 
             PlayerInfoReq packet = new PlayerInfoReq() { PlayerId = 1001, name = "ABCD" };
             var skill = new PlayerInfoReq.Skill() { id = 101, level = 1, duration = 3.0f };
+
             skill.attributes.Add(new PlayerInfoReq.Skill.Attribute() { attri = 77 });
             packet.skills.Add(skill);
 

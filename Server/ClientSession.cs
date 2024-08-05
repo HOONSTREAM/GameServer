@@ -16,7 +16,6 @@ namespace Server
     {
         PlayerInfoReq = 1,
         Test = 2,
-        PlayrInfoReq = 3,
     }
 
     class PlayerInfoReq
@@ -236,7 +235,7 @@ namespace Server
             switch ((PacketID)id)
             {
                     
-                case PacketID.PlayrInfoReq:
+                case PacketID.PlayerInfoReq:
                     {
                         PlayerInfoReq p = new PlayerInfoReq();
                         p.Read(buffer);
