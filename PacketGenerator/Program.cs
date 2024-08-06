@@ -12,8 +12,16 @@ namespace PacketGenerator
         static string genPackets; // 실시간으로 만들어 지는 패킷스트링을 만들어서 관리 
         static ushort packetId;
         static string packetEnums;
+
+        /// <summary>
+        /// 실제로 배치파일이 실행되면, 메인함수의 args에 들어가게 된다.
+        /// 하나만 넣었으니 arg[0]에 들어가게 될것임.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
+            string pdlPath = "PDL.xml";
+
             XmlReaderSettings settings = new XmlReaderSettings()
             {
                 IgnoreComments = true, // 주석무시
@@ -21,8 +29,12 @@ namespace PacketGenerator
                  
             };
 
+            if(args.Length >= 1)
+            {
+                pdlPath = args[0];
+            }
 
-            using (XmlReader r = XmlReader.Create("PDL.xml", settings))
+            using (XmlReader r = XmlReader.Create(pdlPath, settings))
             {
                 r.MoveToContent(); // 헤더 문을 건너뛰고 핵심부분부터 진행함. <packet name = "PlayerInfoReq">문 부터 시작
 
