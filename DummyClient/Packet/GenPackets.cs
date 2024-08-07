@@ -16,8 +16,17 @@ public enum PacketID
 	
 }
 
+interface IPacket
+{
+	ushort Protocol { get; }
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
 
-class PlayerInfoReq
+}
+
+
+
+class PlayerInfoReq : IPacket
 {
     public byte testbyte;
 	public long PlayerId;
@@ -59,7 +68,7 @@ class PlayerInfoReq
 		}
 		
 		
-		        public List<Attribute> attributes = new List<Attribute>();
+		    public List<Attribute> attributes = new List<Attribute>();
 	
 	
 	
@@ -114,8 +123,9 @@ class PlayerInfoReq
 	}
 	
 	
-	        public List<Skill> skills = new List<Skill>();
-
+	    public List<Skill> skills = new List<Skill>();
+    
+    public ushort Protocol { get { return (ushort)PacketID.PlayerInfoReq; } }
   
     public void Read(ArraySegment<byte> segment)
     {
@@ -170,7 +180,7 @@ class PlayerInfoReq
         count += sizeof(ushort); // count를 packetid 필드 크기만큼 증가시킨다.
 
 
-        segment.Array[segment.Offset + count] = (byte)this.testbyte;
+        opensegment.Array[opensegment.Offset + count] = (byte)this.testbyte;
 		count += sizeof(byte);
 		success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.PlayerId);
 		 count += sizeof(long);
@@ -202,10 +212,11 @@ class PlayerInfoReq
 
 
 
-class Test
+class Test : IPacket
 {
     public int testint;
-
+    
+    public ushort Protocol { get { return (ushort)PacketID.Test; } }
   
     public void Read(ArraySegment<byte> segment)
     {

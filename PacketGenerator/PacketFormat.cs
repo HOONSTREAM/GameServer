@@ -32,6 +32,14 @@ public enum PacketID
     {0}
 }}
 
+interface IPacket
+{{
+	ushort Protocol {{ get; }}
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+
+}}
+
 {1}
 
 ";
@@ -49,10 +57,11 @@ public enum PacketID
 
 @"
 
-class {0}
+class {0} : IPacket
 {{
     {1}
-
+    
+    public ushort Protocol {{ get {{ return (ushort)PacketID.{0}; }} }}
   
     public void Read(ArraySegment<byte> segment)
     {{
@@ -147,7 +156,7 @@ class {0}
 }}
 
 
-        public List<{0}> {1}s = new List<{0}>();";
+    public List<{0}> {1}s = new List<{0}>();";
 
 
         //{0} 변수 이름
@@ -200,7 +209,7 @@ for(int i = 0; i<{1}Len; i++)
         //{0} 변수이름
         //{1} 변수형식
         public static string writeByteFormat =
-@"segment.Array[segment.Offset + count] = (byte)this.{0};
+@"opensegment.Array[opensegment.Offset + count] = (byte)this.{0};
 count += sizeof({1});";
 
         //{0} 변수 이름      
