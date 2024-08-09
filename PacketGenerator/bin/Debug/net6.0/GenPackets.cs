@@ -11,8 +11,8 @@ using System.Collections.Specialized;
 
 public enum PacketID
 {
-    PlayerInfoReq = 1,
-	Test = 2,
+    C_PlayerInfoReq = 1,
+	S_Test = 2,
 	
 }
 
@@ -26,7 +26,7 @@ interface IPacket
 
 
 
-class PlayerInfoReq : IPacket
+class C_PlayerInfoReq : IPacket
 {
     public byte testbyte;
 	public long PlayerId;
@@ -125,7 +125,7 @@ class PlayerInfoReq : IPacket
 	
 	    public List<Skill> skills = new List<Skill>();
     
-    public ushort Protocol { get { return (ushort)PacketID.PlayerInfoReq; } }
+    public ushort Protocol { get { return (ushort)PacketID.C_PlayerInfoReq; } }
   
     public void Read(ArraySegment<byte> segment)
     {
@@ -176,7 +176,7 @@ class PlayerInfoReq : IPacket
         count += sizeof(ushort); // 패킷 크기 필드를 건너뛰기 위해 count를 ushort만큼 증가시킨다.
 
 
-        success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), (ushort)PacketID.PlayerInfoReq); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
+        success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), (ushort)PacketID.C_PlayerInfoReq); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
         count += sizeof(ushort); // count를 packetid 필드 크기만큼 증가시킨다.
 
 
@@ -212,11 +212,11 @@ class PlayerInfoReq : IPacket
 
 
 
-class Test : IPacket
+class S_Test : IPacket
 {
     public int testint;
     
-    public ushort Protocol { get { return (ushort)PacketID.Test; } }
+    public ushort Protocol { get { return (ushort)PacketID.S_Test; } }
   
     public void Read(ArraySegment<byte> segment)
     {
@@ -249,7 +249,7 @@ class Test : IPacket
         count += sizeof(ushort); // 패킷 크기 필드를 건너뛰기 위해 count를 ushort만큼 증가시킨다.
 
 
-        success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), (ushort)PacketID.Test); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
+        success &= BitConverter.TryWriteBytes(s.Slice(count,s.Length - count), (ushort)PacketID.S_Test); // packetid를 버퍼에 쓰고, Bitconverter.Trywritebytes 메서드는 데이터를 지정된 위치에 쓰고, 성공여부를 반환한다.
         count += sizeof(ushort); // count를 packetid 필드 크기만큼 증가시킨다.
 
 

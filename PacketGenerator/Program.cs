@@ -13,6 +13,8 @@ namespace PacketGenerator
         static ushort packetId;
         static string packetEnums;
 
+        static string clientRegister;
+        static string serverRegister;
         /// <summary>
         /// 실제로 배치파일이 실행되면, 메인함수의 args에 들어가게 된다.
         /// 하나만 넣었으니 arg[0]에 들어가게 될것임.
@@ -48,6 +50,10 @@ namespace PacketGenerator
                     Console.WriteLine(r.Name + " " + r["name"]); // 타입 , 속성(어트리뷰트)
                     string filetext = string.Format(PacketFormat.fileFormat, packetEnums, genPackets);
                     File.WriteAllText("GenPackets.cs", filetext);
+                    string clientmanagertext = string.Format(PacketFormat.managerFormat, clientRegister);
+                    File.WriteAllText("ClientPacketmanager.cs", clientmanagertext);
+                    string servermanagertext = string.Format(PacketFormat.managerFormat, serverRegister);
+                    File.WriteAllText("ServerPacketmanager.cs", servermanagertext);
                 }
             }
 
@@ -77,6 +83,17 @@ namespace PacketGenerator
             Tuple<string, string, string>  t = ParseMembers(r);
             genPackets += string.Format(PacketFormat.packetFormat, packetName, t.Item1 , t.Item2 , t.Item3);
             packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, ++packetId) + Environment.NewLine + "\t";
+            
+            if(packetName.StartsWith("S_") || packetName.StartsWith("s_"))
+            {
+                clientRegister += string.Format(PacketFormat.managerRegisterFormat, packetName) + Environment.NewLine; //뉴라인은 엔터키 누르는작업
+            }
+            else
+            {
+                serverRegister += string.Format(PacketFormat.managerRegisterFormat, packetName) + Environment.NewLine; //뉴라인은 엔터키 누르는작업
+            }
+            
+
         }
 
         //{1} 멤버 변수
