@@ -58,17 +58,26 @@ namespace ServerCore
         RecvBuffer _recvbuffer = new RecvBuffer(1024); //유저가 각기 보내는 데이터가 다를것이기 때문에 내부에 복사하여 들고 있는것이 맞음.
 
         object _lock = new object();    
+        
         Queue<ArraySegment<byte>> _send_queue = new Queue<ArraySegment<byte>>();      
-
         List<ArraySegment<byte>> _pendinglist = new List<ArraySegment<byte>>(); //이전버전에서 큐 대신 사용되는 것이며, 대기목록 리스트임
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs(); // _sendarg 재사용
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
+
 
         public abstract void OnConnected(EndPoint endpoint);
         public abstract int OnRecv(ArraySegment<byte> buffer);
         public abstract void OnSend(int numOfBytes);
         public abstract void OnDisconnected(EndPoint endpoint);
 
+        private void Clear()
+        {
+            lock (_lock)
+            {
+                _send_queue.Clear();
+                _pendinglist.Clear();
+            }
+        }
         public void Start(Socket socket)
         {
             _socket = socket;
@@ -104,12 +113,17 @@ namespace ServerCore
             OnDisconnected(_socket.RemoteEndPoint);
             _socket.Shutdown(SocketShutdown.Both);
             _socket.Close();
+            Clear();
         }
 
         #region 네트워크 통신
 
         void RegisterSend()
         {
+            if(_disconnected == 1)
+            {
+                return;
+            }
 
             while (_send_queue.Count > 0)
             {
@@ -118,11 +132,20 @@ namespace ServerCore
             }
             _sendArgs.BufferList = _pendinglist;
 
-            bool pending = _socket.SendAsync(_sendArgs);
-            if (pending == false)
+            try
             {
-                OnSendCompleted(null, _sendArgs);
+                bool pending = _socket.SendAsync(_sendArgs);
+                if (pending == false)
+                {
+                    OnSendCompleted(null, _sendArgs);
+                }
             }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine($"RegisterSend Failed {ex}");
+            }
+           
 
         }
 
@@ -164,17 +187,32 @@ namespace ServerCore
         }
         void RegisterRecv()
         {
+            if(_disconnected == 1)
+            {
+                return;
+
+            }
             _recvbuffer.Clean(); 
 
             ArraySegment<byte> segment = _recvbuffer.RecvSegment;
             _recvArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
 
-            bool pending = _socket.ReceiveAsync(_recvArgs);
 
-            if(pending == false)
+            try
             {
-                OnRecvCompleted(null, _recvArgs);
+                bool pending = _socket.ReceiveAsync(_recvArgs);
+
+                if (pending == false)
+                {
+                    OnRecvCompleted(null, _recvArgs);
+                }
             }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine($" RegisterRecv Failed : {ex}");
+            }
+           
 
         }
 

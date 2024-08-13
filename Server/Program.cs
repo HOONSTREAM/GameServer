@@ -13,6 +13,7 @@ class Program
 {
 
     static Listener _listener = new Listener();
+    public static GameRoom Room = new GameRoom();
 
 
     static void Main(string[] args)
@@ -27,7 +28,7 @@ class Program
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
 
-        _listener.Init(endPoint, () => { return new ClientSession(); }); // 무엇을만들어줄지만 지정
+        _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); }); // 무엇을만들어줄지만 지정
 
         while (true)
         {
