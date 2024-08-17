@@ -18,12 +18,13 @@ namespace DummyClient
 
             Connector connecter = new Connector();
 
-            connecter.Connect(endPoint, () => { return new ServerSession(); });
+            connecter.Connect(endPoint, () => { return SessionManager.Instance.Generate(); } , 100);
 
             while (true)
             {
                 try
                 {
+                    SessionManager.Instance.SendForEach();
                 }
 
                 catch (Exception e)
@@ -31,7 +32,7 @@ namespace DummyClient
                     Console.WriteLine(e.ToString());
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(250);
             }
         }
 

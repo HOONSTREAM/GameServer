@@ -2,20 +2,16 @@ using ServerCore;
 
 
 internal class PacketManager
-{
+{ 
     #region Singleton
-    static PacketManager _instance;
-    public static PacketManager Instance
-    {
-        get
-        {
-            if(_instance == null)
-                _instance = new PacketManager();
-            return _instance;
-        }
-    }
+    static PacketManager _instance = new PacketManager();
+    public static PacketManager Instance { get { return _instance; } }
     #endregion
 
+     PacketManager()
+    {
+        Register();
+    }
 
 
     Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
@@ -27,7 +23,7 @@ internal class PacketManager
     {
 
        _onRecv.Add((ushort)PacketID.C_Chat, MakePacket<C_Chat>);
-        _handler.Add((ushort)PacketID.C_Chat, PacketHandler.C_ChatHandler); // C_Chat은 클라이언트에서 서버로 보내는 채팅을 얘기함.
+        _handler.Add((ushort)PacketID.C_Chat, PacketHandler.C_ChatHandler);
 
 
     }

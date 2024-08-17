@@ -18,9 +18,7 @@ class Program
 
     static void Main(string[] args)
     {
-        PacketManager.Instance.Register();
-
-
+       
         //DNS(Domain Name System) 사용
         string host = Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
