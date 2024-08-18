@@ -15,9 +15,10 @@ namespace Server
         public override void OnConnected(EndPoint endpoint)
         {
             Console.WriteLine($"OnConnected : {endpoint}");
-            Program.Room.Enter(this);
-            
-            //TODO
+
+            // Program.Room.Enter(this);를 할건데, 가능할 때, 실행 할 수 있도록 주문을 넣는 행위(큐잉)
+            Program.Room.Push(() => Program.Room.Enter(this));
+   
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
@@ -31,7 +32,8 @@ namespace Server
             SessionManager.Instance.Remove(this);
             if(Room != null)
             {
-                Program.Room.Leave(this);
+                GameRoom room = Room; // 참조는 유지하게 됨.
+                room.Push(() => room.Leave(this));
                 Room = null;
             }
              

@@ -19,8 +19,12 @@ using System.Threading.Tasks;
 
             if(clientsession.Room == null) { return; }
 
-        clientsession.Room.Broadcast(clientsession, chatPacket.chat);
+            GameRoom room = clientsession.Room;
 
+        // 해야 되는 행동 자체를 Action 으로 정의하여, JobQueue 에 Push 해준다.
+            room.Push(
+                () => room.Broadcast(clientsession, chatPacket.chat));
+            
         }
 
        
