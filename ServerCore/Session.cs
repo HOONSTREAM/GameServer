@@ -16,6 +16,7 @@ namespace ServerCore
         public sealed override int OnRecv(ArraySegment<byte> buffer) /// 다른클래스가 PacketSession 클래스를 상속받아도, OnRecv를 오버라이딩 할 수 없다. (Sealed 키워드)
         {
             int processLen = 0;
+            int packetcount = 0;
 
             while (true)
             {
@@ -36,9 +37,15 @@ namespace ServerCore
 
                 //여기까지 왔으면 패킷 조립 가능
                 OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
+                packetcount++;
                 processLen += dataSize;
 
                 buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
+            }
+
+            if(packetcount > 1)
+            {
+                Console.WriteLine($"패킷 모아보낸 숫자 : {packetcount}");
             }
 
             return processLen;
@@ -55,7 +62,7 @@ namespace ServerCore
         Socket _socket; 
         private int _disconnected = 0;
 
-        RecvBuffer _recvbuffer = new RecvBuffer(1024); //유저가 각기 보내는 데이터가 다를것이기 때문에 내부에 복사하여 들고 있는것이 맞음.
+        RecvBuffer _recvbuffer = new RecvBuffer(65535); //유저가 각기 보내는 데이터가 다를것이기 때문에 내부에 복사하여 들고 있는것이 맞음.
 
         object _lock = new object();    
         
@@ -90,8 +97,33 @@ namespace ServerCore
             RegisterRecv();
         }
 
+        /// <summary>
+        /// send 메서드 오버로딩
+        /// </summary>
+        /// <param name="sendbuffList"></param>
+        public void Send(List<ArraySegment<byte>> sendbuffList)
+        {
+            if(sendbuffList.Count == 0) { return; }
+            
+            lock (_lock)
+            {
+                foreach (ArraySegment<byte> sendbuff in sendbuffList)
+                {
+                    _send_queue.Enqueue(sendbuff);
+                }
+               
+                if (_pendinglist.Count == 0) // 실제로 연결된 유저가 없으면,
+                {
+                    RegisterSend();
+                }
+
+            }
+
+        }
+
         public void Send(ArraySegment<byte> sendbuff)
         {
+           
             lock (_lock)
             {
                 _send_queue.Enqueue(sendbuff);

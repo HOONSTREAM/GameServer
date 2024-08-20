@@ -15,7 +15,17 @@ class Program
     static Listener _listener = new Listener();
     public static GameRoom Room = new GameRoom();
 
+    static void FlushRoom()
+    {
+        Room.Push(() => Room.Flush());
+        JobTimer.Instance.Push(FlushRoom, 250);
+    }
 
+
+    /// <summary>
+    /// 메인스레드
+    /// </summary>
+    /// <param name="args"></param>
     static void Main(string[] args)
     {
        
@@ -28,9 +38,11 @@ class Program
 
         _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); }); // 무엇을만들어줄지만 지정
 
+        JobTimer.Instance.Push(FlushRoom);
+
         while (true)
         {
-
+            JobTimer.Instance.Flush();                             
         }
 
     }

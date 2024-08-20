@@ -15,7 +15,7 @@ using System.Threading.Tasks;
             
             //if(chatPacket.playerid == 1)
             {
-                Console.WriteLine(chatPacket.chat);
+               // Console.WriteLine(chatPacket.chat);
             }
 
         }
