@@ -85,7 +85,7 @@ class S_Chat : IPacket
         count += sizeof(ushort); 
         count += sizeof(ushort); 
 
-        this.playerid = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+       this.playerid = BitConverter.ToInt32(segment.Array, segment.Offset + count);
 		 count += sizeof(int); 
 		 ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
 		count += sizeof(ushort);

@@ -18,6 +18,8 @@ namespace PacketGenerator
 
 
 @"using ServerCore;
+using System;
+using System.Collections.Generic;
 
 
 internal class PacketManager
@@ -201,7 +203,7 @@ class {0} : IPacket
 
         {4}
 
-        return true;
+        return success;
     }}
 
    
@@ -216,7 +218,7 @@ class {0} : IPacket
         //{1} To~ 변수형식
         //{2} 변수 형식
         public static string readFormat =
-@" this.{0} = BitConverter.{1}(segment.Array, segment.Offset + count);
+@"this.{0} = BitConverter.{1}(segment.Array, segment.Offset + count);
  count += sizeof({2}); ";
 
         //{0} 변수이름

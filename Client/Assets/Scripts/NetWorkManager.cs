@@ -10,7 +10,7 @@ public class NetWorkManager : MonoBehaviour
     ServerSession _session = new ServerSession();
     void Start()
     {
-        string host = Dns.GetHostName();
+        string host = System.Net.Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
         IPAddress ipAddr = ipHost.AddressList[0];
         IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);

@@ -23,7 +23,7 @@ namespace DummyClient
                 foreach (ServerSession session in _sessions)
                 {
                     C_Chat chatPacket = new C_Chat();
-                    chatPacket.chat = $"Hello Server !";
+                    chatPacket.chat = "Hello Server !";
                     ArraySegment<byte> segment = chatPacket.Write();
 
                     session.Send(segment);

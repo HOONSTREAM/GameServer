@@ -2,10 +2,7 @@
 using ServerCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
      class PacketHandler
@@ -15,7 +12,7 @@ using UnityEngine;
             S_Chat chatPacket = packet as S_Chat;
             ServerSession serversession = session as ServerSession;
 
-            UnityEngine.Debug.Log(chatPacket.chat);
+            Debug.Log(chatPacket.chat);
 
             //if(chatPacket.playerid == 1)
             {

@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 namespace DummyClient
 {
 
-    public class ServerSession : PacketSession
+     class ServerSession : PacketSession
     {
         public override void OnConnected(EndPoint endpoint)
         {
