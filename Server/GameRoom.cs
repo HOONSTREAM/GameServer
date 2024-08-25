@@ -42,7 +42,7 @@ namespace Server
         {
             S_Chat packet = new S_Chat();
             packet.playerid = session.SessionId;
-            packet.chat =  $"I am {packet.playerid}";
+            packet.chat =  $"{chat} I am {packet.playerid}";
             ArraySegment<byte> segment = packet.Write();
 
             _pendingList.Add(segment);

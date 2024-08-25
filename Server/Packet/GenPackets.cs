@@ -16,7 +16,7 @@ public enum PacketID
 	
 }
 
-interface IPacket
+public interface IPacket
 {
 	ushort Protocol { get; }
 	void Read(ArraySegment<byte> segment);
@@ -26,6 +26,9 @@ interface IPacket
 
 
 
+/// <summary>
+/// 클라이언트에서 서버로 전송되는 채팅메세지를 처리하기 위해 사용됩니다.
+/// </summary>
 class C_Chat : IPacket
 {
     public string chat;
@@ -71,7 +74,9 @@ class C_Chat : IPacket
 }
 
 
-
+/// <summary>
+/// 서버에서 클라이언트로 채팅 메세지를 처리하기 위해 사용됩니다.
+/// </summary>
 class S_Chat : IPacket
 {
     public int playerid;
