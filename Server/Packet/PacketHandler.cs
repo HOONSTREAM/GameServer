@@ -12,9 +12,9 @@ using System.Threading.Tasks;
     class PacketHandler
 
     {
-        public static void C_ChatHandler(PacketSession session, IPacket packet)
+        public static void C_LeaveGameHandler(PacketSession session, IPacket packet)
         {
-            C_Chat chatPacket = packet as C_Chat;
+            C_LeaveGame leavePacket = packet as C_LeaveGame;
             ClientSession clientsession = session as ClientSession;
 
             if(clientsession.Room == null) { return; }
@@ -23,12 +23,27 @@ using System.Threading.Tasks;
 
         // 해야 되는 행동 자체를 Action 으로 정의하여, JobQueue 에 Push 해준다.
             room.Push(
-                () => room.Broadcast(clientsession, chatPacket.chat));
-            
+                () => room.Leave(clientsession));            
         }
 
-       
+        public static void C_MoveHandler(PacketSession session, IPacket packet)
+        {
+            C_Move movePacket = packet as C_Move;
+            ClientSession clientsession = session as ClientSession;
+
+            if (clientsession.Room == null) { return; }
+
+            GameRoom room = clientsession.Room;
+
+            // 해야 되는 행동 자체를 Action 으로 정의하여, JobQueue 에 Push 해준다.
+            room.Push(
+                () => room.Move(clientsession, movePacket));
+        }
 
 
-}
+
+
+
+
+    }
 

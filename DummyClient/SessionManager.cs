@@ -12,6 +12,7 @@ namespace DummyClient
         public static SessionManager Instance { get { return _session; } }  
 
         List<ServerSession> _sessions = new List<ServerSession>();
+        Random _random = new Random();
         object _lock = new object();
 
 
@@ -22,9 +23,13 @@ namespace DummyClient
             {
                 foreach (ServerSession session in _sessions)
                 {
-                    C_Chat chatPacket = new C_Chat();
-                    chatPacket.chat = "Hello Server !";
-                    ArraySegment<byte> segment = chatPacket.Write();
+                    C_Move movePacket = new C_Move();
+
+                    movePacket.posX = _random.Next(-50, 50);
+                    movePacket.posY = 0;
+                    movePacket.posZ = _random.Next(-50, 50);
+
+                    ArraySegment<byte> segment = movePacket.Write();
 
                     session.Send(segment);
 

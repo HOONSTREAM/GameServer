@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 
 
-internal class PacketManager
+public class PacketManager
 {{ 
     #region Singleton
     static PacketManager _instance = new PacketManager();
@@ -144,7 +144,7 @@ public interface IPacket
 
 @"
 
-class {0} : IPacket
+public class {0} : IPacket
 {{
     {1}
     
