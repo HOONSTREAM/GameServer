@@ -6,27 +6,44 @@ using System.Text;
 using UnityEngine;
 
      class PacketHandler
-     {
-    public static void S_ChatHandler(PacketSession session, IPacket packet)
     {
-        S_Chat chatPacket = packet as S_Chat;
-        ServerSession serversession = session as ServerSession;
 
-        Debug.Log(chatPacket.chat);
-
-        GameObject go = GameObject.Find("Player").gameObject;
-
-        if(go == null)
+        public static void S_BroadcastEnterGameHandler(PacketSession session, IPacket packet)
         {
-            Debug.Log("Player not Found");
-        }
-        else
-        {
-            Debug.Log("Player found");
-        }
-        
+            S_BroadcastEnterGame pkt = packet as S_BroadcastEnterGame;
+            ServerSession serversession = session as ServerSession;
 
+            PlayerManager.Instance.EnterGame(pkt);
     }
 
-}
+        public static void S_BroadcastLeaveGameHandler(PacketSession session, IPacket packet)
+        {
+            S_BroadcastLeaveGame pkt = packet as S_BroadcastLeaveGame;
+            ServerSession serversession = session as ServerSession;
+
+            PlayerManager.Instance.LeaveGame(pkt);
+        }
+
+        public static void S_PlayerListHandler(PacketSession session, IPacket packet)
+        {
+            S_PlayerList pkt = packet as S_PlayerList;
+            ServerSession serversession = session as ServerSession;
+
+            PlayerManager.Instance.Add(pkt);
+        }
+
+        public static void S_BroadcastMoveHandler(PacketSession session, IPacket packet)
+        {
+            S_BroadcastMove pkt = packet as S_BroadcastMove;
+            ServerSession serversession = session as ServerSession;
+
+            PlayerManager.Instance.Move(pkt);
+        }
+
+
+
+     }
+     
+    
+     
 

@@ -198,7 +198,7 @@ public class S_PlayerList : IPacket
 	
 	    }
 	
-	    public bool Write(ArraySegment<byte> segment, ref ushort count) //여기서 Span은 전체 바이트 배열임. 두번째 인자는 실시간으로 우리가 몇번째 카운트를 작업하고 있는지.
+	    public bool Write(ArraySegment<byte> opensegment, ref ushort count) //여기서 Span은 전체 바이트 배열임. 두번째 인자는 실시간으로 우리가 몇번째 카운트를 작업하고 있는지.
 	   
 	    {
 	        bool success = true;
@@ -239,7 +239,7 @@ public class S_PlayerList : IPacket
 		for(int i = 0; i<playerLen; i++)
 		{
 		    Player player = new Player();
-		    player.Read(s, ref count);
+		    player.Read(segment, ref count);
 		
 		    players.Add(player);
 		
